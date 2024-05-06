@@ -17,7 +17,8 @@ jobs:
     runs-on: self-hosted
     permissions:
       packages: write
-      contents: read 
+      actions: write
+      contents: write
     steps:
       - name: GetRepoName
         if: ( !cancelled() )
@@ -123,4 +124,16 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
-       
+
+      - name: Dayly Artifact Cleanup
+        uses: jimschubert/delete-artifacts-action@v1
+        with:
+          log_level: 'error'
+          min_bytes: '0'
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          retain_days: 0
+          keep_minimum_runs: 6
+      - name: Clean Up
+        uses: AutoModality/action-clean@v1
