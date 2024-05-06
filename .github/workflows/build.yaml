@@ -37,6 +37,8 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
         if: ( !cancelled() )
+        with:
+          fetch-depth: 1
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -68,6 +70,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME_TENCENT }}
           password: ${{ secrets.DOCKER_PASSWORD_TENCENT }}
 
+      - name: Log in to Aliyun registry HZ
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        if: ( !cancelled() )
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.DOCKER_USERNAME_ALIYUN }}
+          password: ${{ secrets.DOCKER_PASSWORD_ALIYUN }}
+
+      - name: Log in to Aliyun registry USW
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: registry.us-west-1.aliyuncs.com
+          username: ${{ secrets.DOCKER_USERNAME_ALIYUN }}
+          password: ${{ secrets.DOCKER_PASSWORD_ALIYUN }}
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         if: ( !cancelled() )
@@ -78,6 +95,8 @@ jobs:
             ghcr.io/${{ github.repository }}
             ccr.ccs.tencentyun.com/${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
             uswccr.ccs.tencentyun.com/${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
+            registry.cn-hangzhou.aliyuncs.com/${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
+            registry.us-west-1.aliyuncs.com/${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
           tags: |
             ${{ env.BUILD_VERSION }}
             type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
