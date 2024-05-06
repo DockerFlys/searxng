@@ -101,7 +101,7 @@ jobs:
           tags: |
             ${{ env.BUILD_VERSION }}
             type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
-            type=raw,value=action-{{branch}}-{{date 'YYYYMMDD-HHmmss' tz='Asia/Shanghai'}}
+            type=raw,value=action-{{branch}}-{{date 'YYYYMMDD' tz='Asia/Shanghai'}}
           flavor: |
             latest=true
           labels: |
