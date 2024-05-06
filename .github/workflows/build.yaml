@@ -61,12 +61,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME_TENCENT }}
           password: ${{ secrets.DOCKER_PASSWORD_TENCENT }}
 
-      # - name: Log in to Tencent registry USW
-      #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-      #   with:
-      #     registry: uswccr.ccs.tencentyun.com
-      #     username: ${{ secrets.DOCKER_USERNAME_TENCENT }}
-      #     password: ${{ secrets.DOCKER_PASSWORD_TENCENT }}
+      - name: Log in to Tencent registry USW
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: uswccr.ccs.tencentyun.com
+          username: ${{ secrets.DOCKER_USERNAME_TENCENT }}
+          password: ${{ secrets.DOCKER_PASSWORD_TENCENT }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -77,6 +77,7 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
             ghcr.io/${{ github.repository }}
             ccr.ccs.tencentyun.com/${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
+            uswccr.ccs.tencentyun.com/${{ secrets.DOCKER_USERNAME }}/${{ env.PROJECT_NAME_REPO  }}
           tags: |
             ${{ env.BUILD_VERSION }}
             type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
